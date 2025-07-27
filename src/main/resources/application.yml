@@ -3,7 +3,10 @@ server:
 
 spring:
   application:
-    name: file-processor
+    name: navtive-image
+  mvc:
+    favicon:
+      enabled: false
 
 management:
   endpoints:
@@ -23,3 +26,14 @@ app:
       max-idle: 5
       min-idle: 2
       max-wait-millis: 5000
+
+
+logging:
+  level:
+    root: info
+    com.achui: debug
+  file:
+    name: logs/file-processor.log
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
