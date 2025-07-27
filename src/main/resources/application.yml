@@ -17,8 +17,6 @@ management:
 app:
   template:
     path: classpath:templates/
-  scheduler:
-    cron: "0 0 * * * *"
   sftp:
     pool:
       max-total: 10
