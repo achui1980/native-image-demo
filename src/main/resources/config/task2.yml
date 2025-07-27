@@ -1,0 +1,16 @@
+name: "task2"
+source:
+  host: "sftp.source2.com"
+  port: 22
+  username: "user2"
+  password: "pass2"
+target:
+  host: "sftp.target2.com"
+  port: 22
+  username: "user2"
+  password: "pass2"
+sourcePath: "/remote/source/file2.xml"
+sourceFormat: "xml"
+targetPath: "/remote/target/file2.csv"
+targetFormat: "csv"
+templateName: "xml-to-csv.ftl"

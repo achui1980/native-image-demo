@@ -1,0 +1,27 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: file-processor
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+app:
+  template:
+    path: classpath:templates/
+  scheduler:
+    cron: "0 0 * * * *"
+  sftp:
+    pool:
+      max-total: 10
+      max-idle: 5
+      min-idle: 2
+      max-wait-millis: 5000
