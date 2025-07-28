@@ -4,9 +4,6 @@ server:
 spring:
   application:
     name: navtive-image
-  mvc:
-    favicon:
-      enabled: false
 
 management:
   endpoints:
