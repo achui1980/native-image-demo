@@ -4,6 +4,8 @@ server:
 spring:
   application:
     name: navtive-image
+  jmx:
+    enabled: false
 
 management:
   endpoints:

@@ -1,16 +1,16 @@
 name: "task1"
 source:
-  host: "sftp.source1.com"
-  port: 22
-  username: "user1"
-  password: "pass1"
+  host: "192.168.1.100"
+  port: 2223
+  username: "sftp-demo"
+  password: "Hello.123"
 target:
-  host: "sftp.target1.com"
-  port: 22
-  username: "user1"
-  privateKeyPath: "/path/to/key1.pem"
-sourcePath: "/remote/source/file1.csv"
+  host: "192.168.1.100"
+  port: 2223
+  username: "sftp-demo"
+  password: "Hello.123"
+sourcePath: "demo/source/test.csv"
 sourceFormat: "csv"
-targetPath: "/remote/target/file1.json"
+targetPath: "demo/target/test.json"
 targetFormat: "json"
 templateName: "csv-to-json.ftl"

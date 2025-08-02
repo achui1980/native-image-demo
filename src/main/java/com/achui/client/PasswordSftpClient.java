@@ -24,6 +24,7 @@ public class PasswordSftpClient implements SftpClient {
     @Autowired
     private GenericObjectPool<ChannelSftp> sftpPool;
 
+
     public PasswordSftpClient(String host, int port, String username, String password) {
         this.host = host;
         this.port = port;
@@ -44,7 +45,7 @@ public class PasswordSftpClient implements SftpClient {
             channelSftp.connect();
             logger.info("SFTP connection established to {}:{}", host, port);
         } catch (JSchException e) {
-            logger.error("Failed to connect to SFTP server: {}", e.getMessage());
+            logger.error("Failed to connect to SFTP server: host:{}, port:{}, username:{}", host, port, username);
             throw e;
         }
     }
