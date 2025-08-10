@@ -100,6 +100,50 @@ These additional references should also help you:
 
 * [Configure AOT settings in Build Plugin](https://docs.spring.io/spring-boot/3.5.0/how-to/aot.html)
 
+## GraalVM 原生镜像配置
+
+为了成功将此项目编译为 GraalVM 原生镜像，需要处理由反射（Reflection）等动态特性带来的挑战。
+
+### Reachability Metadata (可达性元数据)
+
+原生镜像的构建过程需要提前知道所有在运行时可能被访问的类、方法和资源。对于像 JSch (SFTP) 和 Spring Boot 配置绑定 (`@ConfigurationProperties`) 这样大量使用反射的库，我们需要手动提供元数据。
+
+这些元数据配置文件位于 `src/main/resources/META-INF/native-image/` 目录下：
+
+-   `reflect-config.json`: 声明了需要通过反射访问的类、方法和字段。我们为 JSch 和 `TaskProperties` 配置类添加了相关条目。
+
+当您添加新的依赖或编写了使用反射的代码时，可能需要更新这些文件。
+
+### 使用追踪代理自动采集元数据
+
+如果遇到 `ClassNotFoundException` 或类似的反射错误，最推荐的方法是使用 GraalVM 的追踪代理来自动生成所需的配置。
+
+请按以下步骤操作：
+
+1.  **构建常规的 JAR 包**
+    首先，构建一个标准的可执行JAR文件（不使用 `native` profile）。
+    ```bash
+    mvn clean package
+    ```
+
+2.  **使用 Agent 运行程序**
+    在项目根目录运行以下命令，启动程序并挂载追踪代理。代理会将收集到的配置直接输出到正确的源码目录。
+    ```bash
+    java -agentlib:native-image-agent=config-output-dir=src/main/resources/META-INF/native-image -jar target/navtive-image-0.0.1-SNAPSHOT.jar
+    ```
+
+3.  **完整测试应用功能**
+    在程序运行期间，请务必通过API或其他方式，完整地触发应用的所有功能，特别是那些之前导致错误的功能。代理只会记录被实际执行到的代码路径。
+
+4.  **停止程序并生成配置**
+    完成测试后，通过 `Ctrl+C` 停止应用程序。代理会自动在 `src/main/resources/META-INF/native-image/` 目录下创建或合并 `reflect-config.json` 等配置文件。
+
+5.  **重新构建原生镜像**
+    最后，使用新的元数据重新构建原生镜像。
+    ```bash
+    mvn -Pnative clean package
+    ```
+
 ## GraalVM Native Support
 
 This project has been configured to let you generate either a lightweight container or a native executable.

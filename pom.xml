@@ -31,7 +31,7 @@
 		<apache.commons.pool2.version>2.11.1</apache.commons.pool2.version>
 		<freemarker.version>2.3.32</freemarker.version>
 		<commons-net.version>3.10.0</commons-net.version>
-		<jsch.version>0.1.55</jsch.version>
+		<jsch.version>2.27.2</jsch.version>
 		<aws-java-sdk.version>1.12.261</aws-java-sdk.version>
 	</properties>
 	<dependencies>
@@ -59,8 +59,9 @@
 		</dependency>
 
 		<!-- SFTP -->
+		<!-- https://mvnrepository.com/artifact/com.github.mwiede/jsch -->
 		<dependency>
-			<groupId>com.jcraft</groupId>
+			<groupId>com.github.mwiede</groupId>
 			<artifactId>jsch</artifactId>
 			<version>${jsch.version}</version>
 		</dependency>
@@ -135,6 +136,14 @@
 								<phase>package</phase>
 							</execution>
 						</executions>
+						<configuration>
+							<metadataRepository>
+								<enabled>true</enabled>
+							</metadataRepository>
+							<buildArgs>
+								<buildArg>--no-fallback</buildArg>
+							</buildArgs>
+						</configuration>
 					</plugin>
 				</plugins>
 			</build>
